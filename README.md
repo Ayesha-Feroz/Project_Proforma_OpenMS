@@ -3,31 +3,31 @@ Protein and peptide sequences are usually represented using a string of amino ac
 #Use cases supported (with examples)
 The ProForma notation is a string of characters that represent linearly one or more peptidoform/proteoform primary structures with possibilities to link peptidic chains together. It is not meant to represent secondary or tertiary structures.
 
-# Canonical IUPAC amino acids
+## Canonical IUPAC amino acids
 EMEVEESPEK
 #PTMs using common ontologies or controlled vocabularies (e.g. Unimod, PSI-MOD, and RESID)
 EM[UNIMOD:35]EVEES[UNIMOD:21]PEK
 EM[L-methionine sulfoxide]EVEES[O-phospho-L-serine]PEK
-# Cross-linkers using the XL-MOD ontology
+## Cross-linkers using the XL-MOD ontology
 EMEVTK[XLMOD:02001#XL1]SESPEK[#XL1]
 EVTSEKC[L-cystine (cross-link)#XL1]LEMSC[#XL1]EFD
-# Glycans using the GNO (Glycan Naming Ontology) ontology
+## Glycans using the GNO (Glycan Naming Ontology) ontology
 YPVLN[GNO:G62765YT]VTMPN[GNO:G02815KT]NSNGKFDK
 # Arbitrary mass shifts and unknown mass gaps
 EM[+15.9949]EVEES[-79.9663]PEK
 RTAAX[+367.0537]WT
-# Elemental formulas and Glycan compositions
+## Elemental formulas and Glycan compositions
 SEQUEN[Formula:C12H20O2]CE
 SEQUEN[Glycan:HexNAc1Hex 2]CE
-# Terminal and Labile Modifications
+## Terminal and Labile Modifications
 [iTRAQ4plex]-EMEVNESPEK-[Methyl]
 {Glycan:Hex}EMEVNESPEK
-# Ambiguity of modification position (completely unlocalised, n possible sites, or a range of sites)
+## Ambiguity of modification position (completely unlocalised, n possible sites, or a range of sites)
 [Phospho]?EMEVTSESPEK
 EMEVT[#g1]S[#g1]ES[Phospho#g1]PEK
 PROT(EOSFORMS)[+19.0523]ISK
-# Global modifications (e.g. isotopic labeling or fixed protein modifications)
+## Global modifications (e.g. isotopic labeling or fixed protein modifications)
 <13C>ATPEILTVNSIGQLK
 <[S-carboxamidomethyl-L-cysteine]@C>ATPEILTCNSIGCLK
-# Additional user-supplied textual information
+## Additional user-supplied textual information
 ELV[info:AnyString]IS
