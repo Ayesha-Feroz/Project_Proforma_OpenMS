@@ -13,7 +13,7 @@ EMEVTK[XLMOD:02001#XL1]SESPEK[#XL1]
 EVTSEKC[L-cystine (cross-link)#XL1]LEMSC[#XL1]EFD
 ## Glycans using the GNO (Glycan Naming Ontology) ontology
 YPVLN[GNO:G62765YT]VTMPN[GNO:G02815KT]NSNGKFDK
-# Arbitrary mass shifts and unknown mass gaps
+## Arbitrary mass shifts and unknown mass gaps
 EM[+15.9949]EVEES[-79.9663]PEK
 RTAAX[+367.0537]WT
 ## Elemental formulas and Glycan compositions
