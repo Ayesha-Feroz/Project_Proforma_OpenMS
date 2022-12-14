@@ -1,0 +1,100 @@
+# Minimum cmake version supported
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8.12)
+
+# Enable testing support
+enable_testing()
+
+# Disable MAC OSX warning
+IF (APPLE)
+	set(CMAKE_MACOSX_RPATH 1)
+ENDIF()
+
+# folder project
+project(TopDownProteomics)
+
+# Check current architecture
+IF( CMAKE_SIZEOF_VOID_P EQUAL 8 ) # 64 bits
+	set(PROJECT_IS_64 TRUE)
+ELSE()
+	set(PROJECT_IS_32 TRUE)
+ENDIF()
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+
+# Set some initial variables
+set(PROJECT_ROOT_PATH "${CMAKE_SOURCE_DIR}")
+set(PROJECT_PROFORMA_SRC_PATH "${PROJECT_ROOT_PATH}/ProForma")
+set(PROJECT_HELPERS_SRC_PATH "${PROJECT_ROOT_PATH}/Helpers")
+set(PROJECT_PARSER_SRC_PATH "${PROJECT_ROOT_PATH}/Parser")
+set(PROJECT_JSON_SRC_PATH "${PROJECT_HELPERS_SRC_PATH}/Json/include")
+
+# Define the include paths
+include_directories(${PROJECT_ROOT_PATH})
+include_directories(${PROJECT_PROFORMA_SRC_PATH})
+include_directories(${PROJECT_HELPERS_SRC_PATH})
+include_directories(${PROJECT_JSON_SRC_PATH})
+
+# Define output directories for all targets
+set(PROJECT_OUTPUT_BIN_PATH ${PROJECT_ROOT_PATH}/../bin)
+set(PROJECT_OUTPUT_LIB_PATH ${PROJECT_ROOT_PATH}/../lib)
+file(TO_NATIVE_PATH ${CMAKE_SOURCE_DIR}/../include PROJECT_OUTPUT_INC_PATH)
+
+IF (WIN32)
+	IF( PROJECT_IS_64 )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_BIN_PATH}/windows/64 )
+		set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_LIB_PATH}/windows/64 )
+		# Use always release version
+		set( PROJECT_OUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release )
+		set( PROJECT_LIB_OUT_PATH ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Release )
+	ELSE()
+	        set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_BIN_PATH}/windows/32 )
+		set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_LIB_PATH}/windows/32 )
+
+		# Use always release version
+		set( PROJECT_OUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release )
+		set( PROJECT_LIB_OUT_PATH ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Release )
+	ENDIF()
+ELSEIF (APPLE)
+	IF( PROJECT_IS_64 )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_BIN_PATH}/mac/64 )
+		set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_LIB_PATH}/mac/64 )
+	ELSE()
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_BIN_PATH}/mac/32 )
+		set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_LIB_PATH}/mac/32 )
+	ENDIF()
+
+	# Where library is placed
+	set( PROJECT_OUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} )
+ELSE()
+	IF( PROJECT_IS_64 )
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_BIN_PATH}/linux/64 )
+		set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_LIB_PATH}/linux/64 )
+	ELSE()
+		set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_BIN_PATH}/linux/32 )
+		set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_LIB_PATH}/linux/32 )
+	ENDIF()
+
+	# Where library is placed
+	set( PROJECT_OUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} )
+ENDIF()
+
+# Set library name
+set(PROJECT_LIB_NAME "TopDownProteomics")
+
+# Define the sources used to build this library
+file(GLOB_RECURSE PROJECT_SRCS "${PROJECT_PROFORMA_SRC_PATH}/*.cpp" "${PROJECT_PROFORMA_SRC_PATH}/*.h")
+
+# Define the library
+add_library (${PROJECT_LIB_NAME} SHARED ${PROJECT_SRCS}) 
+
+# Set parser name
+set(PROJECT_PARSER_NAME "ProFormaParser")
+
+# Define the sources to build simple parser example
+file(GLOB_RECURSE PARSER_SRCS "${PROJECT_PARSER_SRC_PATH}/*.cpp" "${PROJECT_PARSER_SRC_PATH}/*.h")
+
+# Define the simple parser program
+include_directories(${PROJECT_PARSER_SRC_PATH})
+add_executable(${PROJECT_PARSER_NAME} ${PARSER_SRCS}) 
+target_link_libraries(${PROJECT_PARSER_NAME} ${PROJECT_LIB_NAME})
