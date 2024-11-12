@@ -1,5 +1,5 @@
 **ProForma Support in OpenMS**
-Overview
+
 This module in OpenMS provides support for handling ProForma strings that represent modifications in peptide and protein sequences. The ProForma notation allows for precise representation of modifications, such as mass shifts, post-translational modifications (PTMs), and terminal modifications on amino acids.
 
 **What is ProForma?**
